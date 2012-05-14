@@ -31,10 +31,11 @@ class CommuneViewController < UIViewController
    view.addSubview(@amount = UITextField.new.tap{ |amount|
       amount.frame = [[300, 115], [100, 50]]
       amount.placeholder = "$ 0.00"
+      amount.keyboardType = UIKeyboardTypeNumberPad
     })
-    view.addSubview(@event = UITextField.new.tap{ |amount|
-      amount.frame = [[300, 190], [200, 50]]
-      amount.placeholder = "Parada 22"
+    view.addSubview(@event = UITextField.new.tap{ |event|
+      event.frame = [[300, 190], [200, 50]]
+      event.placeholder = "Parada 22"
     })
   end
 

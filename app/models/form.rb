@@ -2,7 +2,7 @@ class Form
   attr_accessor :amount, :payer, :participated, :event
 
   def initialize(amount, payer, participated, event)
-    self.amount = amount
+    self.amount = amount.gsub(/[$ ]/,'')
     self.payer = payer
     self.participated = participated
     self.event = event
