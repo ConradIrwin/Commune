@@ -1,7 +1,5 @@
 class CommuneViewController < UIViewController
 
-  IMAGES = ["conrad.jpg", "lee.jpg", "martin.jpg", "rahul.jpg", "sam.jpg"]
-
   def viewDidLoad
     view.backgroundColor = UIColor.whiteColor
     createLabels
@@ -25,8 +23,8 @@ class CommuneViewController < UIViewController
   end
 
   def createImages
-    @paid = ImageList::SelectOne.new(view, IMAGES, 300, 300)
-    @participated = ImageList::SelectMany.new(view, IMAGES, 300, 500)
+    @paid = PersonList::SelectOne.new(view, Person::ALL, 300, 300)
+    @participated = PersonList::SelectMany.new(view, Person::ALL, 300, 500)
   end
 
   def createTextbox
@@ -35,12 +33,13 @@ class CommuneViewController < UIViewController
       amount.placeholder = "$ 0.00"
     })
     view.addSubview(@event = UITextField.new.tap{ |amount|
-      amount.frame = [[300, 190], [100, 50]]
+      amount.frame = [[300, 190], [200, 50]]
       amount.placeholder = "Parada 22"
     })
   end
 
   def addButton
+  NSUTF8StringEncoding
     view.addSubview(UIButton.buttonWithType(UIButtonTypeRoundedRect).tap{ |button|
       button.setTitle('Commune!', forState:UIControlStateNormal)
       button.frame = [[300,600], [400, 100]]
@@ -49,19 +48,32 @@ class CommuneViewController < UIViewController
   end
 
   def description
-    "Paid #{@amount.text} for #{@event.text}"
+    "#{@paid.selection && @paid.selection.name || 'no-one'} paid #{@amount.text} at #{@event.text} for #{@participated.selection.map(&:name).join(", ")}"
   end
 
   def click
-    UIAlertView.new.tap{ |alert|
-      alert.title = "MOOO"
-      alert.message = description
-      alert.addButtonWithTitle("oo")
-      alert.show
-    }
+    form = Form.new(@amount.text, @paid.selection, @participated.selection, @event.text)
+    return alert(form.validation_errors.join(", ")) unless form.valid?
+
+    response = form.submit!
+
+    if response =~ /Your response has been recorded./
+      alert('w00t!, response recorded!');
+    else
+      $stderr.puts response
+      alert('ZOMG, it didn"t work :(');
+    end
   end
 
   def shouldAutorotateToInterfaceOrientation(io)
     [UIDeviceOrientationLandscapeLeft, UIDeviceOrientationLandscapeRight].include?(io)
+  end
+
+  def alert(msg)
+    alert = UIAlertView.new
+    alert.title = "Commune!"
+    alert.message = msg
+    alert.addButtonWithTitle("OK")
+    alert.show
   end
 end

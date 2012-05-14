@@ -1,9 +1,11 @@
-class ImageButton < UIButton
+class PersonButton < UIButton
   include CocoaHelpers
   attr_accessor :block
+  attr_accessor :person
 
-  def image=(name)
-    self.backgroundColor = colorImage(name)
+  def person=(person)
+    @person = person
+    self.backgroundColor = colorImage(person.image)
   end
 
   def onTouchUp(&block)
