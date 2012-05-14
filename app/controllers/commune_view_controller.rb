@@ -28,15 +28,25 @@ class CommuneViewController < UIViewController
   end
 
   def createTextbox
-   view.addSubview(@amount = UITextField.new.tap{ |amount|
+    view.addSubview(@amount = UITextField.new.tap{ |amount|
+      amount.delegate = self
       amount.frame = [[300, 115], [100, 50]]
       amount.placeholder = "$ 0.00"
       amount.keyboardType = UIKeyboardTypeNumberPad
     })
     view.addSubview(@event = UITextField.new.tap{ |event|
+      event.delegate = self
       event.frame = [[300, 190], [200, 50]]
       event.placeholder = "Parada 22"
     })
+  end
+
+  def textFieldShouldReturn(textField)
+    if textField == @amount
+      @event.becomeFirstResponder
+    else
+      @event.resignFirstResponder
+    end
   end
 
   def addButton

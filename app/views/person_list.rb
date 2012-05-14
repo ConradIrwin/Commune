@@ -12,7 +12,7 @@ class PersonList
   end
 
   def touched(button)
-    raise NotImplementedError
+    view.findAndResignFirstResponder
   end
 
   def buttons
@@ -32,6 +32,7 @@ class PersonList
 
   class SelectOne < PersonList
     def touched(button)
+      super
       selected_button.selected = false if selection
       button.selected = true
     end
@@ -47,6 +48,7 @@ class PersonList
 
   class SelectMany < PersonList
     def touched(button)
+      super
       button.selected = !button.selected
     end
 
