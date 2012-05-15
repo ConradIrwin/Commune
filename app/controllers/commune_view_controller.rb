@@ -30,7 +30,7 @@ class CommuneViewController < UIViewController
   def createTextbox
     view.addSubview(@amount = UITextField.new.tap{ |amount|
       amount.delegate = self
-      amount.frame = [[300, 115], [100, 50]]
+      amount.frame = [[300, 115], [200, 50]]
       amount.placeholder = "$ 0.00"
       amount.keyboardType = UIKeyboardTypeNumberPad
     })
