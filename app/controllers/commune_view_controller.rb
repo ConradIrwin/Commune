@@ -1,25 +1,23 @@
 class CommuneViewController < UIViewController
+  include DomNomery
 
-  def viewDidLoad
-    view.backgroundColor = UIColor.whiteColor
-    createLabels
+  DOM = {
+    commune_view: self,
+    how_much: UILabel,
+    what_for: UILabel,
+    who_paid: UILabel,
+    who_participated: UILabel,
+    amount: UITextField,
+    event: UITextField,
+    commune_it: UIButton,
+  }
+
+  def domDidNom
+    amount.delegate = self
+    event.delegate = self
+    commune_it.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
+
     createImages
-    createTextbox
-    addButton
-  end
-
-  def createLabels
-    addLabel('How Much?', 100);
-    addLabel('What for?', 175);
-    addLabel('Who Paid?', 300);
-    addLabel('Who Participated?', 500);
-  end
-
-  def addLabel(text, offset)
-    view.addSubview(UILabel.new.tap{ |label|
-      label.text = text
-      label.frame = [[100, offset], [200, 50]]
-    })
   end
 
   def createImages
@@ -27,43 +25,16 @@ class CommuneViewController < UIViewController
     @participated = PersonList::SelectMany.new(view, Person::ALL, 300, 500)
   end
 
-  def createTextbox
-    view.addSubview(@amount = UITextField.new.tap{ |amount|
-      amount.delegate = self
-      amount.frame = [[300, 115], [200, 50]]
-      amount.placeholder = "$ 0.00"
-      amount.keyboardType = UIKeyboardTypeNumberPad
-    })
-    view.addSubview(@event = UITextField.new.tap{ |event|
-      event.delegate = self
-      event.frame = [[300, 190], [200, 50]]
-      event.placeholder = "Parada 22"
-    })
-  end
-
   def textFieldShouldReturn(textField)
-    if textField == @amount
-      @event.becomeFirstResponder
+    if textField == amount
+      event.becomeFirstResponder
     else
-      @event.resignFirstResponder
+      event.resignFirstResponder
     end
   end
 
-  def addButton
-  NSUTF8StringEncoding
-    view.addSubview(UIButton.buttonWithType(UIButtonTypeRoundedRect).tap{ |button|
-      button.setTitle('Commune!', forState:UIControlStateNormal)
-      button.frame = [[300,600], [400, 100]]
-      button.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
-    })
-  end
-
-  def description
-    "#{@paid.selection && @paid.selection.name || 'no-one'} paid #{@amount.text} at #{@event.text} for #{@participated.selection.map(&:name).join(", ")}"
-  end
-
   def click
-    form = Form.new(@amount.text, @paid.selection, @participated.selection, @event.text)
+    form = Form.new(amount.text, @paid.selection, @participated.selection, event.text)
     return alert(form.validation_errors.join(", ")) unless form.valid?
 
     response = form.submit!

@@ -11,5 +11,7 @@ Motion::Project::App.setup do |app|
   app.seed_id = "8A7KL9F8AZ"
 
   app.files = Dir.glob(File.join(app.project_dir, 'core_extensions/**/*.rb')) |
+              Dir.glob(File.join(app.project_dir, 'lib/**/*.rb')) |
+              Dir.glob(File.join(app.project_dir, 'style/**/*.rb')) |
               Dir.glob(File.join(app.project_dir, 'app/**/*.rb'))
 end
