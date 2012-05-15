@@ -22,7 +22,7 @@ class Form
   end
 
   def url
-    url = "https://spreadsheets.google.com/formResponse?formkey=dHpSeWdIaTB6NlViVXhRazVJUXlmMHc6MQ"
+    url = "https://www.google.com/"
 
     url << "&entry.0.single=#{escape(amount)}"
     url << "&entry.1.single=#{escape(payer.name)}"
@@ -49,6 +49,7 @@ class Form
 
   # Woohoo! isn't it nice when things just work :).
   def submit!
-    NSString.stringWithContentsOfURL(url)
+#    NSString.stringWithContentsOfURL(url)
+    return "FOOO"
   end
 end
