@@ -12,6 +12,8 @@ Motion::Project::App.setup do |app|
 
   app.files = Dir.glob(File.join(app.project_dir, 'core_extensions/**/*.rb')) |
               Dir.glob(File.join(app.project_dir, 'lib/**/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'style/**/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'app/**/*.rb'))
+              Dir.glob(File.join(app.project_dir, 'app/helpers/*.rb')) |
+              Dir.glob(File.join(app.project_dir, 'app/views/*.rb')) |
+              Dir.glob(File.join(app.project_dir, 'app/**/*.rb')) |
+              Dir.glob(File.join(app.project_dir, 'style/**/*.rb'))
 end

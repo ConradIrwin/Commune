@@ -10,6 +10,8 @@ class CommuneViewController < UIViewController
     amount: UITextField,
     event: UITextField,
     commune_it: UIButton,
+    paid: PersonList::SelectOne,
+    participated: PersonList::SelectMany
   }
 
   def domDidNom
@@ -17,7 +19,8 @@ class CommuneViewController < UIViewController
     event.delegate = self
     commune_it.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
 
-    createImages
+    paid.people = Person::ALL
+    participated.people = Person::ALL
   end
 
   def createImages

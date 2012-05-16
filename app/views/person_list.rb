@@ -1,18 +1,14 @@
-class PersonList
+class PersonList < UIView
   include CocoaHelpers
-  attr_accessor :view, :people, :left, :top
+  attr_reader :people
 
-  def initialize(view, people, left, top)
-    self.view = view
-    self.people = people
-    self.left = left
-    self.top = top
-
+  def people=(people)
+    @people = people
     drawImages
   end
 
   def touched(button)
-    view.findAndResignFirstResponder
+    findAndResignFirstResponder
   end
 
   def buttons
@@ -21,13 +17,14 @@ class PersonList
 
   def drawImages
     people.each_with_index do |person, i|
-      view.addSubview(PersonButton.new.tap{ |button|
+      addSubview(PersonButton.new.tap{ |button|
         button.person = person
-        button.frame = [[self.left + i * 100, self.top - 20], [80, 80]]
+        button.frame = [[i * 100, 0], [80, 80]]
         button.onTouchUp(&method(:touched))
         buttons << button
       })
     end
+    setNeedsLayout
   end
 
   class SelectOne < PersonList

@@ -2,3 +2,4 @@
 build
 resources/*.nib
 tags
+*.swp

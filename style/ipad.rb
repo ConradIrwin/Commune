@@ -19,7 +19,7 @@ class StyleSheet
       text: 'Who Paid?'
 
     nom :who_participated, like: :left_label,
-      top: 500,
+      top: 480,
       text: 'Who Participated?'
 
     nom :text_box,
@@ -46,6 +46,14 @@ class StyleSheet
 
     nom :commune_view,
       backgroundColor: UIColor.whiteColor
+
+    nom :paid,
+      is_a: PersonList::SelectOne,
+      frame: [[300, 290], [500, 100]]
+
+    nom :participated,
+      is_a: PersonList::SelectMany,
+      frame: [[300, 460], [500, 100]]
   end
 end
 
