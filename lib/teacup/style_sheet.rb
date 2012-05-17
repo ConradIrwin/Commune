@@ -64,7 +64,7 @@ module Teacup
   # a case the Sheet inclusion conflicts are resolved independently; and then in
   # a second phase, the ':like' chain is flattened.
   #
-  class Sheet
+  class StyleSheet
     attr_reader :name
 
     # Create a new Sheet with the given name.
@@ -80,7 +80,7 @@ module Teacup
     #
     def initialize(name, &block)
       @name = name.to_sym
-      Teacup::Sheet.const_set(@name, self)
+      Teacup::StyleSheet.const_set(@name, self)
       instance_eval &block
       self
     end
@@ -96,7 +96,7 @@ module Teacup
     #     include :VerticalTweaks
     #   end
     def include(name_or_sheet)
-      if Sheet === name_or_sheet
+      if StyleSheet === name_or_sheet
         included << name_or_sheet.name
       else
         included << name_or_sheet.to_sym
@@ -148,7 +148,7 @@ module Teacup
     #
     # @return String
     def inspect
-      "Teacup::Sheet:#{name.inspect}"
+      "Teacup::StyleSheet:#{name.inspect}"
     end
 
     protected
@@ -169,10 +169,10 @@ module Teacup
       seen[self] = true
 
       included.each do |name|
-        unless Teacup::Sheet.const_defined?(name)
+        unless Teacup::StyleSheet.const_defined?(name)
           raise "Teacup tried to include Sheet:#{name} into Sheet:#{self.name}, but it didn't exist"
         end
-        Teacup::Sheet.const_get(name).properties_for(query, so_far, seen)
+        Teacup::StyleSheet.const_get(name).properties_for(query, so_far, seen)
       end
 
       so_far.update(styles[query])

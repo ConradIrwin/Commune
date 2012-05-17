@@ -56,9 +56,9 @@ module Teacup
     def current_sheet
       if UIDevice.currentDevice.orientation == UIDeviceOrientationLandscapeLeft ||
          UIDevice.currentDevice.orientation == UIDeviceOrientationLandscapeRight
-	    Teacup::Sheet::IPad
+	    Teacup::StyleSheet::IPad
       else
-	    Teacup::Sheet::IPadVertical
+	    Teacup::StyleSheet::IPadVertical
       end
     end
   end
