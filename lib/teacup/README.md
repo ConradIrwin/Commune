@@ -1,5 +1,4 @@
 
-
 So... What's the API?
 
 
@@ -12,6 +11,7 @@ Right, so the configuration aspect is actually totally independent of the view s
 
 So...
 
+```ruby
 IPadVertical = Stylesheet.new do
 
   include IPadBase
@@ -19,6 +19,7 @@ IPadVertical = Stylesheet.new do
   style :foo, like: :bar,
 
 end
+```
 
 Stylesheets are "just" modules.
 
