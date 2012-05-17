@@ -77,6 +77,13 @@ class StyleSheet
     end
   end
 
+  def self.update(view)
+    if ruleset = rulesets.detect{ |ruleset| ruleset.className == view.className }
+      ruleset.apply_to(view, self)
+    end
+    view.subviews.each(&method(:update))
+  end
+
   def self.current
     # TODO :)
     @current ||= case UIDevice.currentDevice.model

@@ -1,10 +1,14 @@
 module DomNomery
+
   def viewDidLoad
+    $stderr.puts(dom_def.inspect)
     dom_def.each do |name, klass|
+      $stderr.puts([name, klass].inspect)
       if klass == self.class
-        StyleSheet.current.apply(name, view)
+        Teacup.style(name, view)
       else
-        elements[name] = StyleSheet.current.create(name, view)
+        elements[name] = Teacup.create(name)
+        elements[name].className = name
         raise "Type mismatch: expected #{klass} got #{elements[name]} for #{name}" unless elements[name].class.ancestors.include?(klass)
         view.addSubview(elements[name])
       end

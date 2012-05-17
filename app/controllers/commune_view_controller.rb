@@ -51,7 +51,11 @@ class CommuneViewController < UIViewController
   end
 
   def shouldAutorotateToInterfaceOrientation(io)
-    [UIDeviceOrientationLandscapeLeft, UIDeviceOrientationLandscapeRight].include?(io)
+    true
+  end
+
+  def willAnimateRotationToInterfaceOrientation(io, duration: duration)
+    Teacup.update(view)
   end
 
   def alert(msg)

@@ -7,4 +7,6 @@ class UIView
        subviews.each(&:findAndResignFirstResponder)
      end
   end
+
+  attr_accessor :className
 end
