@@ -8,5 +8,5 @@ class UIView
      end
   end
 
-  attr_accessor :className
+  attr_accessor :style_name
 end

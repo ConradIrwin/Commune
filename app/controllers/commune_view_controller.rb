@@ -1,20 +1,54 @@
 class CommuneViewController < UIViewController
-  include DomNomery
 
-  DOM = {
-    commune_view: self,
-    how_much: UILabel,
-    what_for: UILabel,
-    who_paid: UILabel,
-    who_participated: UILabel,
-    amount: UITextField,
-    event: UITextField,
-    commune_it: UIButton,
-    paid: PersonList::SelectOne,
-    participated: PersonList::SelectMany
-  }
+  layout :commune_view do
+    subview :how_much
+    subview :what_for
+    subview :who_paid
+    subview :who_participated
+    subview :amount
+    subview :event
+    subview :commune_it
+    subview :paid
+    subview :participated
+    subview :shiny_thing do
+      subview :shadow_view, {
+        top: 100,
+        width: 100,
+        height: 100,
+        left: 550,
+        backgroundColor: UIColor.blackColor
+      } do
+        subview :rounded_view, {
+          cornerRadius: 40,
+          top: 10,
+          left: 10,
+          width: 80,
+          height: 80,
+          backgroundColor: UIColor.blueColor
+        }
+      end
+    end
+  end
 
-  def domDidNom
+  #TODO extend the style-sheet API to make this nicer. override `+`?
+  def style_sheet
+    super_sheet = self.class.style_sheet
+    Teacup::StyleSheet.new(:Temp) do
+      if UIDevice.currentDevice.orientation == UIDeviceOrientationLandscapeLeft ||
+         UIDevice.currentDevice.orientation == UIDeviceOrientationLandscapeRight
+        include Teacup::StyleSheet::IPad
+      else
+        include Teacup::StyleSheet::IPadVertical
+      end
+      include super_sheet
+    end
+  end
+
+  def willAnimateRotationToInterfaceOrientation(io, duration: duration)
+    layout.style_sheet = style_sheet
+  end
+
+  def layoutDidLoad
     amount.delegate = self
     event.delegate = self
     commune_it.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
@@ -52,10 +86,6 @@ class CommuneViewController < UIViewController
 
   def shouldAutorotateToInterfaceOrientation(io)
     true
-  end
-
-  def willAnimateRotationToInterfaceOrientation(io, duration: duration)
-    Teacup.update(view)
   end
 
   def alert(msg)

@@ -28,8 +28,8 @@ module Teacup
 	  instance.setTitle(value, forState: UIControlStateNormal)
 	elsif instance.respond_to?(:"#{key}=")
 	  instance.send(:"#{key}=", value)
-	else
-          $stderr.puts "Teacup WARN: Can't apply #{key} to #{instance.inspect}"
+	else 
+    $stderr.puts "Teacup WARN: Can't apply #{key} to #{instance.inspect}"
 	end
       end
     end
