@@ -1,4 +1,4 @@
-Teacup::Sheet.new(:IPad) do
+Teacup::StyleSheet.new(:IPad) do
   style :left_label,
     class: UILabel,
     left: 100,

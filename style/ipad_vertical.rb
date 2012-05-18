@@ -1,4 +1,4 @@
-Teacup::Sheet.new(:IPadVertical) do
+Teacup::StyleSheet.new(:IPadVertical) do
   include :IPad
 
   def below(query, offset)
