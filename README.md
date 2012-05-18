@@ -1,11 +1,11 @@
-A little app that reimplements the web-interface from http://commune.jelzo.com/.
+A little app that reimplements a tool we (the Rapportive team) use internally. [This version is intentionally broken, but is acting as a play ground for https://github.com/RubyMotion/teacup]
 
 The plan was to use it to come up with a way to share code between iPad and iPhone apps, but I don't know how feasible that actually will end up being.
 
 Installation in 50 easy steps!
 ------------------------------
 
-Step 0 -> 10. Install latest OS X, iOS, Xcode (app store) and Ruby Motion (licence in the passwords file, download at  http://www.rubymotion.com/files/RubyMotion%20Installer.zip )
+Step 0 -> 10. Install latest OS X, iOS, Xcode (app store) and Ruby Motion
 
 Step 11. Run `rake` to compile and build the app for the simulator.
 
