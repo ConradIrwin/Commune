@@ -1,5 +1,7 @@
 Teacup::StyleSheet.new(:IPad) do
   style :left_label,
+    color: UIColor.whiteColor,
+    backgroundColor: UIColor.blackColor,
     left: 100,
     width: 200,
     height: 50
@@ -21,6 +23,7 @@ Teacup::StyleSheet.new(:IPad) do
     text: 'Who Participated?'
 
   style :text_box,
+    textColor: UIColor.greenColor.colorWithAlphaComponent(0.7),
     left: 300,
     width: 200,
     height: 50
@@ -35,16 +38,23 @@ Teacup::StyleSheet.new(:IPad) do
     placeholder: "Parada 22"
 
   style :commune_it,
-    type: UIButtonTypeRoundedRect,
     left: 300, top: 600, width: 400, height: 100,
-    title: "Commune it!"
+    title: "Commune it!",
+    backgroundColor: UIColor.blueColor.colorWithAlphaComponent(0.5),
+    cornerRadius: 10
 
   style :commune_view,
-    backgroundColor: UIColor.whiteColor
+    backgroundColor: UIColor.blackColor
 
   style :paid,
     left: 300, top: 290, width: 500, height: 100
 
   style :participated,
     left: 300, top: 460, width: 500, height: 100
+
+  style :person_button,
+    alpha: 0.3
+
+  style :person_button_selected, like: :person_button,
+    alpha: 0.9
 end

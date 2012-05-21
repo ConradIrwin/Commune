@@ -13,7 +13,7 @@ class CommuneViewController < UIViewController
     self.event = layout(UITextField, :event,
       delegate: self)
 
-    self.commune_it = layout(UIButton.buttonWithType(UIButtonTypeRoundedRect), :commune_it)
+    self.commune_it = layout(UIButton.buttonWithType(UIButtonTypeCustom), :commune_it)
     commune_it.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
 
     self.paid = layout(PersonList::SelectOne, :paid,

@@ -13,6 +13,16 @@ module Teacup
       subviews.each{ |subview| subview.style_sheet = style_sheet }
     end
 
+    def animate_to_style_name(style_name, options={})
+      return if self.style_name == style_name
+      UIView.beginAnimations(nil, context: nil)
+      # TODO: This should be in a style-sheet!
+      UIView.setAnimationDuration(options[:duration]) if options[:duration]
+      UIView.setAnimationCurve(options[:curve]) if options[:curve]
+      self.style_name = style_name
+      UIView.commitAnimations
+    end
+
     def style(properties)
       clean_properties! properties
 
@@ -23,7 +33,9 @@ module Teacup
           send(:"#{key}=", value)
         elsif layer.respond_to?(:"#{key}=")
           layer.send(:"#{key}=", value)
-        else 
+        elsif key == :keyboardType
+          setKeyboardType(value)
+        else
           $stderr.puts "Teacup WARN: Can't apply #{key} to #{inspect}"
         end
       end
@@ -32,6 +44,9 @@ module Teacup
       if rand > 1
         setCornerRadius(1.0) 
         setFrame([[0,0],[0,0]])
+        setTransform(nil)
+        setMasksToBounds(0)
+        setShadowOffset(0)
       end
     end
 

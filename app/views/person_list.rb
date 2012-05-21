@@ -19,7 +19,7 @@ class PersonList < UIView
     people.each_with_index do |person, i|
       layout(PersonButton, :person_button,
         person: person,
-        frame: [[i * 100, 0], [80, 80]]
+        frame: [[i * 110, 0], [80, 80]]
       ) do |button|
         button.onTouchUp(&method(:touched))
         buttons << button
@@ -31,7 +31,7 @@ class PersonList < UIView
   class SelectOne < PersonList
     def touched(button)
       super
-      selected_button.selected = false if selection
+      selected_button.selected = false if selected_button && selected_button != button
       button.selected = true
     end
 

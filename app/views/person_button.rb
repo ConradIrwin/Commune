@@ -18,12 +18,8 @@ class PersonButton < UIButton
   end
 
   def selected=(selected)
-    if selected
-      self.transform = CGAffineTransformMakeRotation(Math::PI / 4)
-    else
-      self.transform = CGAffineTransformMakeRotation(0)
-    end
     @selected = selected
+    animate_to_style_name(selected ? :person_button_selected : :person_button)
   end
 
   attr_reader :selected
