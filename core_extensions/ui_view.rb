@@ -1,4 +1,7 @@
 class UIView
+  include Teacup::Layout
+  include Teacup::View
+
   # http://stackoverflow.com/questions/1823317/how-do-i-legally-get-the-current-first-responder-on-the-screen-on-an-iphone
   def findAndResignFirstResponder
      if isFirstResponder
@@ -7,6 +10,4 @@ class UIView
        subviews.each(&:findAndResignFirstResponder)
      end
   end
-
-  attr_accessor :style_name
 end

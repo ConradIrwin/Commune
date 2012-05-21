@@ -17,12 +17,13 @@ class PersonList < UIView
 
   def drawImages
     people.each_with_index do |person, i|
-      addSubview(PersonButton.new.tap{ |button|
-        button.person = person
-        button.frame = [[i * 100, 0], [80, 80]]
+      layout(PersonButton, :person_button,
+        person: person,
+        frame: [[i * 100, 0], [80, 80]]
+      ) do |button|
         button.onTouchUp(&method(:touched))
         buttons << button
-      })
+      end
     end
     setNeedsLayout
   end

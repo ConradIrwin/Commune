@@ -10,10 +10,9 @@ Motion::Project::App.setup do |app|
   app.codesign_certificate = "iPhone Developer: Conrad Vohra (G444LA5FCL)"
   app.seed_id = "8A7KL9F8AZ"
 
-  app.files = Dir.glob(File.join(app.project_dir, 'core_extensions/**/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'lib/**/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'app/helpers/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'app/views/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'app/**/*.rb')) |
-              Dir.glob(File.join(app.project_dir, 'style/**/*.rb'))
+  dirs = %w(lib core_extensions style app/helpers app/views app)
+
+  app.files = dirs.map{ |dir|
+                Dir.glob(File.join(app.project_dir, "#{dir}/**/*.rb"))
+              }.flatten
 end

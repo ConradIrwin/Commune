@@ -1,65 +1,51 @@
 class CommuneViewController < UIViewController
 
-  layout :commune_view do
-    subview :how_much
-    subview :what_for
-    subview :who_paid
-    subview :who_participated
-    subview :amount
-    subview :event
-    subview :commune_it
-    subview :paid
-    subview :participated
-    subview :shiny_thing do
-      subview :shadow_view, {
-        top: 100,
-        width: 100,
-        height: 100,
-        left: 550,
-        backgroundColor: UIColor.blackColor
-      } do
-        subview :rounded_view, {
-          cornerRadius: 40,
-          top: 10,
-          left: 10,
-          width: 80,
-          height: 80,
-          backgroundColor: UIColor.blueColor
-        }
-      end
-    end
-  end
+  attr_accessor :amount, :event, :commune_it, :paid, :participated
 
-  #TODO extend the style-sheet API to make this nicer. override `+`?
-  def style_sheet
-    super_sheet = self.class.style_sheet
-    Teacup::StyleSheet.new(:Temp) do
-      if UIDevice.currentDevice.orientation == UIDeviceOrientationLandscapeLeft ||
-         UIDevice.currentDevice.orientation == UIDeviceOrientationLandscapeRight
-        include Teacup::StyleSheet::IPad
-      else
-        include Teacup::StyleSheet::IPadVertical
-      end
-      include super_sheet
-    end
-  end
+  layout(:commune_view) do |view|
+    layout(UILabel, :how_much)
+    layout(UILabel, :what_for)
+    layout(UILabel, :who_paid)
+    layout(UILabel, :who_participated)
 
-  def willAnimateRotationToInterfaceOrientation(io, duration: duration)
-    layout.style_sheet = style_sheet
-  end
+    self.amount = layout(UITextField, :amount,
+      delegate: self)
+    self.event = layout(UITextField, :event,
+      delegate: self)
 
-  def layoutDidLoad
-    amount.delegate = self
-    event.delegate = self
+    self.commune_it = layout(UIButton.buttonWithType(UIButtonTypeRoundedRect), :commune_it)
     commune_it.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
 
-    paid.people = Person::ALL
-    participated.people = Person::ALL
+    self.paid = layout(PersonList::SelectOne, :paid,
+      people: Person::ALL)
+    self.participated = layout(PersonList::SelectMany, :participated,
+      people: Person::ALL)
+
+    layout(UIView,
+              top: 100,
+              width: 100,
+              height: 100,
+              left: 550,
+              backgroundColor: UIColor.blackColor
+            ) do |shiny_thing|
+              layout(UIView,
+                cornerRadius: 30,
+                top: 10,
+                left: 10,
+                width: 80,
+                height: 80,
+                backgroundColor: UIColor.blueColor
+              )
+            end
   end
 
-  def createImages
-    @paid = PersonList::SelectOne.new(view, Person::ALL, 300, 300)
-    @participated = PersonList::SelectMany.new(view, Person::ALL, 300, 500)
+  def style_sheet
+    if [UIDeviceOrientationLandscapeLeft,
+        UIDeviceOrientationLandscapeRight].include?(UIDevice.currentDevice.orientation)
+      Teacup::StyleSheet::IPad
+    else
+      Teacup::StyleSheet::IPadVertical
+    end
   end
 
   def textFieldShouldReturn(textField)
@@ -86,6 +72,10 @@ class CommuneViewController < UIViewController
 
   def shouldAutorotateToInterfaceOrientation(io)
     true
+  end
+
+  def willAnimateRotationToInterfaceOrientation(io, duration: duration)
+    restyle!
   end
 
   def alert(msg)

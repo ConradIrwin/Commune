@@ -1,6 +1,5 @@
 Teacup::StyleSheet.new(:IPad) do
   style :left_label,
-    class: UILabel,
     left: 100,
     width: 200,
     height: 50
@@ -22,7 +21,6 @@ Teacup::StyleSheet.new(:IPad) do
     text: 'Who Participated?'
 
   style :text_box,
-    class: UITextField,
     left: 300,
     width: 200,
     height: 50
@@ -37,7 +35,6 @@ Teacup::StyleSheet.new(:IPad) do
     placeholder: "Parada 22"
 
   style :commune_it,
-    class: lambda{ UIButton.buttonWithType(UIButtonTypeRoundedRect) },
     type: UIButtonTypeRoundedRect,
     left: 300, top: 600, width: 400, height: 100,
     title: "Commune it!"
@@ -46,10 +43,8 @@ Teacup::StyleSheet.new(:IPad) do
     backgroundColor: UIColor.whiteColor
 
   style :paid,
-    class: PersonList::SelectOne,
     left: 300, top: 290, width: 500, height: 100
 
   style :participated,
-    class: PersonList::SelectMany,
     left: 300, top: 460, width: 500, height: 100
 end

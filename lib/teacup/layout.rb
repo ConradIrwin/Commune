@@ -1,97 +1,66 @@
 module Teacup
-  class Layout
-    attr_reader :view, :style_sheet
-
-    def initialize(view, style_sheet, layout_definition={})
-      @view = view
-      @style_sheet = style_sheet
-
-      view.style_name = layout_definition.keys.first
-      elements[layout_definition.keys.first] = view
-      update(view)
-
-      recursively_create_subviews(view, layout_definition.values.first)
+  module Layout
+    def style_sheet
+      nil
     end
 
-    def style_sheet=(style_sheet)
-      @style_sheet = style_sheet
-      update(view)
+    def restyle!
+      top_level_view.style_sheet = style_sheet
     end
 
-    def elements
-      @elements ||= {}
-    end
+    def layout(class_or_instance, name_or_properties, properties_or_nil=nil, &block)
+      instance = Class === class_or_instance ? class_or_instance.new : class_or_instance
 
-    def recursively_create_subviews(view, dict)
-      dict.each do |name, subdict|
-        subview = elements[name] = self.new(name)
-        view.addSubview(subview)
-        recursively_create_subviews(subview, subdict)
+      if Class === class_or_instance
+        unless class_or_instance <= UIView
+          raise "Expected subclass of UIView, got: #{class_or_instance.inspect}"
+        end
+        instance = class_or_instance.new
+      elsif UIView === class_or_instance
+        instance = class_or_instance
+      else
+        raise "Expected a UIView, got: #{class_or_instance.inspect}"
       end
-    end
 
-    def add(name, properties={})
-      subview = new(name, properties)
-      view.addSubview(subview)
-      subview
-    end
+      if properties_or_nil
+        name = name_or_properties.to_sym
+        properties = properties_or_nil
+      elsif Hash === name_or_properties
+        name = nil
+        properties = name_or_properties
+      else
+        name = name_or_properties.to_sym
+        properties = nil
+      end
 
-    def new(name, properties={})
-      properties = style_sheet.query(name).merge(properties)
+      instance.style_sheet = style_sheet
+      instance.style(properties) if properties
+      instance.style_name = name if name
 
-      instance = if Proc === properties[:class]
-                   properties[:class].call
-                 else
-                   (properties[:class] || UIView).new
-                 end
+      if !instance.superview && !(instance == top_level_view)
+        (superview_chain.last || top_level_view).addSubview(instance)
+      end
+      begin
+        superview_chain << instance
+        instance_exec(instance, &block) if block_given?
+      ensure
+        superview_chain.pop
+      end
 
-      instance.style_name = name
-      update(instance, properties)
       instance
     end
 
-    def update(view, properties=style_sheet.query(view.style_name))
-      apply_properties(properties, view)
-      view.subviews.each(&method(:update))
-      view
-    end
-
-    protected
-   def apply_properties(properties, instance)
-      clean_properties! properties
-
-      properties.each do |key, value|
-        if key == :title && UIButton === instance
-          instance.setTitle(value, forState: UIControlStateNormal)
-        elsif instance.respond_to?(:"#{key}=")
-          instance.send(:"#{key}=", value)
-        elsif instance.layer.respond_to?(:"#{key}=")
-          instance.layer.send(:"#{key}=", value)
-        else 
-          $stderr.puts "Teacup WARN: Can't apply #{key} to #{instance.inspect}"
-        end
+    def top_level_view
+      case self
+      when UIViewController
+        view
+      when UIView
+        self
       end
-
-      #OUCH! Figure out why this is needed
-      setCornerRadius(1.0) if rand > 1
-
     end
 
-    def clean_properties!(properties)
-      return unless [:frame, :left, :top, :width, :height].any?(&properties.method(:key?))
-
-      frame = properties.delete(:frame) || [[0,0],[0,0]]
-
-      frame[0][0] = properties.delete(:left) || frame[0][0]
-      frame[0][1] = properties.delete(:top) || frame[0][1]
-      frame[1][0] = properties.delete(:width) || frame[1][0]
-      frame[1][1] = properties.delete(:height) || frame[1][1]
-
-      properties[:frame] = frame
-    end
-
-    def create(layout_definition)
-
+    def superview_chain
+      @superview_chain ||= []
     end
   end
 end
