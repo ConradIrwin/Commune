@@ -3,3 +3,4 @@ build
 resources/*.nib
 tags
 *.swp
+/vendor/teacup/
