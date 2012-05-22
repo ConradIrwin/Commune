@@ -2,7 +2,7 @@ class CommuneViewController < UIViewController
 
   attr_accessor :amount, :event, :commune_it, :paid, :participated
 
-  layout(:commune_view) do |view|
+  interface(:commune_view) do |view|
     layout(UILabel, :how_much)
     layout(UILabel, :what_for)
     layout(UILabel, :who_paid)
@@ -42,9 +42,9 @@ class CommuneViewController < UIViewController
   def style_sheet
     if [UIDeviceOrientationLandscapeLeft,
         UIDeviceOrientationLandscapeRight].include?(UIDevice.currentDevice.orientation)
-      Teacup::StyleSheet::IPad
+      Teacup::Stylesheet::IPad
     else
-      Teacup::StyleSheet::IPadVertical
+      Teacup::Stylesheet::IPadVertical
     end
   end
 

@@ -1,4 +1,4 @@
-Teacup::StyleSheet.new(:IPad) do
+Teacup::Stylesheet.new(:IPad) do
   style :left_label,
     color: UIColor.whiteColor,
     backgroundColor: UIColor.blackColor,
@@ -6,19 +6,19 @@ Teacup::StyleSheet.new(:IPad) do
     width: 200,
     height: 50
 
-  style :how_much, like: :left_label,
+  style :how_much, extends: :left_label,
     top: 100,
     text: 'How Much?'
 
-  style :what_for, like: :left_label,
+  style :what_for, extends: :left_label,
     top: 175,
     text: 'What for?'
 
-  style :who_paid, like: :left_label,
+  style :who_paid, extends: :left_label,
     top: 300,
     text: 'Who Paid?'
 
-  style :who_participated, like: :left_label,
+  style :who_participated, extends: :left_label,
     top: 480,
     text: 'Who Participated?'
 
@@ -28,12 +28,12 @@ Teacup::StyleSheet.new(:IPad) do
     width: 200,
     height: 50
 
-  style :amount, like: :text_box,
+  style :amount, extends: :text_box,
     top: 115,
     placeholder: "$ 0.00",
     keyboardType: UIKeyboardTypeNumberPad
 
-  style :event, like: :text_box,
+  style :event, extends: :text_box,
     top: 190,
     placeholder: "Parada 22"
 
@@ -55,6 +55,6 @@ Teacup::StyleSheet.new(:IPad) do
   style :person_button,
     alpha: 0.3
 
-  style :person_button_selected, like: :person_button,
+  style :person_button_selected, extends: :person_button,
     alpha: 0.9
 end

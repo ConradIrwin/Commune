@@ -11,7 +11,7 @@ Motion::Project::App.setup do |app|
   app.seed_id = "8A7KL9F8AZ"
   app.frameworks += %w(QuartzCore)
 
-  dirs = %w(lib core_extensions style app/helpers app/views app)
+  dirs = %w(vendor/teacup/lib lib core_extensions style app/helpers app/views app)
 
   app.files = dirs.map{ |dir|
                 Dir.glob(File.join(app.project_dir, "#{dir}/**/*.rb"))

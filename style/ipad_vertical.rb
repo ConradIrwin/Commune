@@ -1,9 +1,9 @@
-Teacup::StyleSheet.new(:IPadVertical) do
-  include :IPad
+Teacup::Stylesheet.new(:IPadVertical) do
+  import :IPad
 
-  def below(query, offset)
-	prev = self.query(query)
-	prev[:top] + prev[:height] + offset
+  def below(stylename, offset)
+    prev = query(stylename)
+    prev[:top] + prev[:height] + offset
   end
 
   style :text_box, :paid, :participated, :left_label,
