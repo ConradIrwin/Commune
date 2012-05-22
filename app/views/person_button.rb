@@ -19,7 +19,7 @@ class PersonButton < UIButton
 
   def selected=(selected)
     @selected = selected
-    animate_to_style_name(selected ? :person_button_selected : :person_button)
+    animate_to_stylename(selected ? :person_button_selected : :person_button)
   end
 
   attr_reader :selected

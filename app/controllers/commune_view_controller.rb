@@ -39,7 +39,7 @@ class CommuneViewController < UIViewController
             end
   end
 
-  def style_sheet
+  def stylesheet
     if [UIDeviceOrientationLandscapeLeft,
         UIDeviceOrientationLandscapeRight].include?(UIDevice.currentDevice.orientation)
       Teacup::Stylesheet::IPad
