@@ -17,7 +17,7 @@ class PersonList < UIView
 
   def drawImages
     people.each_with_index do |person, i|
-      layout(PersonButton, :person_button,
+      subview(PersonButton, :person_button,
         person: person,
         frame: [[i * 110, 0], [80, 80]]
       ) do |button|

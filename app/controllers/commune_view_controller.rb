@@ -2,33 +2,33 @@ class CommuneViewController < UIViewController
 
   attr_accessor :amount, :event, :commune_it, :paid, :participated
 
-  interface(:commune_view) do |view|
-    layout(UILabel, :how_much)
-    layout(UILabel, :what_for)
-    layout(UILabel, :who_paid)
-    layout(UILabel, :who_participated)
+  layout(:commune_view) do |view|
+    subview(UILabel, :how_much)
+    subview(UILabel, :what_for)
+    subview(UILabel, :who_paid)
+    subview(UILabel, :who_participated)
 
-    self.amount = layout(UITextField, :amount,
+    self.amount = subview(UITextField, :amount,
       delegate: self)
-    self.event = layout(UITextField, :event,
+    self.event = subview(UITextField, :event,
       delegate: self)
 
-    self.commune_it = layout(UIButton.buttonWithType(UIButtonTypeCustom), :commune_it)
+    self.commune_it = subview(UIButton.buttonWithType(UIButtonTypeCustom), :commune_it)
     commune_it.addTarget(self, action: :click, forControlEvents:UIControlEventTouchUpInside)
 
-    self.paid = layout(PersonList::SelectOne, :paid,
+    self.paid = subview(PersonList::SelectOne, :paid,
       people: Person::ALL)
-    self.participated = layout(PersonList::SelectMany, :participated,
+    self.participated = subview(PersonList::SelectMany, :participated,
       people: Person::ALL)
 
-    layout(UIView,
+    subview(UIView,
               top: 100,
               width: 100,
               height: 100,
               left: 550,
               backgroundColor: UIColor.blackColor
             ) do |shiny_thing|
-              layout(UIView,
+              subview(UIView,
                 cornerRadius: 30,
                 top: 10,
                 left: 10,
