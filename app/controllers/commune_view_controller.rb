@@ -1,8 +1,10 @@
-class CommuneViewController < TeacupViewController
+class CommuneViewController < UIViewController
 
   attr_accessor :amount, :event, :commune_it, :paid, :participated
 
+  $stderr.puts 1
   layout(:commune_view) do |view|
+    $stderr.puts 2
     subview(UILabel, :how_much)
     subview(UILabel, :what_for)
     subview(UILabel, :who_paid)
@@ -39,14 +41,7 @@ class CommuneViewController < TeacupViewController
             end
   end
 
-  def stylesheet
-    if [UIDeviceOrientationLandscapeLeft,
-        UIDeviceOrientationLandscapeRight].include?(UIDevice.currentDevice.orientation)
-      Teacup::Stylesheet[:IPad]
-    else
-      Teacup::Stylesheet[:IPadVertical]
-    end
-  end
+  stylesheet :ipad
 
   def textFieldShouldReturn(textField)
     if textField == amount
@@ -72,10 +67,6 @@ class CommuneViewController < TeacupViewController
 
   def shouldAutorotateToInterfaceOrientation(io)
     true
-  end
-
-  def willAnimateRotationToInterfaceOrientation(io, duration: duration)
-    restyle!
   end
 
   def alert(msg)
